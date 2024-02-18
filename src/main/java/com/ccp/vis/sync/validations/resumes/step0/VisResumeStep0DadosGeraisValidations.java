@@ -1,12 +1,12 @@
 package com.ccp.vis.sync.validations.resumes.step0;
 
-import com.ccp.fields.validations.annotations.AllowedValues;
-import com.ccp.fields.validations.annotations.ObjectRules;
-import com.ccp.fields.validations.annotations.ObjectText;
-import com.ccp.fields.validations.annotations.ValidationRules;
-import com.ccp.fields.validations.enums.AllowedValuesValidations;
-import com.ccp.fields.validations.enums.ObjectTextSizeValidations;
-import com.ccp.fields.validations.enums.ObjectValidations;
+import com.ccp.validation.annotations.AllowedValues;
+import com.ccp.validation.annotations.ObjectRules;
+import com.ccp.validation.annotations.ObjectText;
+import com.ccp.validation.annotations.ValidationRules;
+import com.ccp.validation.enums.AllowedValuesValidations;
+import com.ccp.validation.enums.ObjectTextSizeValidations;
+import com.ccp.validation.enums.ObjectValidations;
 
 @ValidationRules(simpleObjectRules = {
 		@ObjectRules(rule = ObjectValidations.requiredFields, fields = {"onlyHomeOffice", "ddds", "pcd", "disabilities", "companiesNotAllowed", "disponibility", "observations"}),
