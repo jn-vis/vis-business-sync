@@ -1,4 +1,4 @@
-package com.ccp.vis.sync.validations.resumes.step0;
+package com.ccp.vis.sync.validations.resumes.steps;
 
 import com.ccp.validation.annotations.AllowedValues;
 import com.ccp.validation.annotations.ObjectRules;
