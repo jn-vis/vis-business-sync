@@ -28,6 +28,7 @@ public class SyncServiceVisResumeView {
 		VisEntityPositionFeesToViewResume visEntityPositionFeesToViewResume = new VisEntityPositionFeesToViewResume();		
 		
 		Function<CcpJsonRepresentation, CcpJsonRepresentation> action = data -> {
+			
 			return null;
 		};
 		
