@@ -6,8 +6,16 @@ import com.jn.commons.entities.JnEntityAsyncTask;
 import com.jn.vis.commons.utils.VisTopics;
 
 public class SyncServiceVisResume {
+	
 	public CcpJsonRepresentation save(String email, CcpJsonRepresentation json) {
-		CcpJsonRepresentation send = new CcpAsyncProcess().send(json.put("email", email), VisTopics.saveResume.name(), new JnEntityAsyncTask());
+
+		String name = VisTopics.saveResume.name();
+		JnEntityAsyncTask entity = new JnEntityAsyncTask();
+		CcpJsonRepresentation put = json.put("email", email);
+		CcpAsyncProcess ccpAsyncProcess = new CcpAsyncProcess();
+		
+		CcpJsonRepresentation send = ccpAsyncProcess.send(put, name, entity);
+		
 		return send;
 	}
 
