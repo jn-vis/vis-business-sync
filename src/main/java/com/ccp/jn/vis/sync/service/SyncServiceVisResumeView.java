@@ -18,15 +18,6 @@ public class SyncServiceVisResumeView {
 
 	public CcpJsonRepresentation getResume(CcpJsonRepresentation values) {
 		
-		VisEntityResume visEntityResume = new VisEntityResume();
-		VisEntityBalance visEntityBalance = new VisEntityBalance();
-		VisEntityPosition visEntityPosition = new VisEntityPosition();
-		VisEntityResumeView visEntityResumeView = new VisEntityResumeView();
-		VisEntityResumeComment visEntityResumeComment = new VisEntityResumeComment();
-		VisEntityResumeNegativeted visEntityResumeNegativeted = new VisEntityResumeNegativeted();
-		VisEntityDeniedViewToCompany visEntityDeniedViewToCompany = new VisEntityDeniedViewToCompany();
-		VisEntityPositionFeesToViewResume visEntityPositionFeesToViewResume = new VisEntityPositionFeesToViewResume();		
-		
 		Function<CcpJsonRepresentation, CcpJsonRepresentation> action = data -> {
 			
 			return null;
@@ -34,14 +25,14 @@ public class SyncServiceVisResumeView {
 		
 		CcpJsonRepresentation result = new CcpGetEntityId(values)
 		.toBeginProcedureAnd()
-			.loadThisIdFromEntity(visEntityBalance).and()
-			.loadThisIdFromEntity(visEntityResumeView).and()
-			.loadThisIdFromEntity(visEntityResumeComment).and()
-			.loadThisIdFromEntity(visEntityPositionFeesToViewResume).and()
-			.ifThisIdIsNotPresentInEntity(visEntityResume).returnStatus(VisProcessStatus.inactiveResume).and()
-			.ifThisIdIsNotPresentInEntity(visEntityPosition).returnStatus(VisProcessStatus.inactivePosition).and()
-			.ifThisIdIsPresentInEntity(visEntityResumeNegativeted).returnStatus(VisProcessStatus.negativatedResume).and()
-			.ifThisIdIsPresentInEntity(visEntityDeniedViewToCompany).returnStatus(VisProcessStatus.notAllowedRecruiter).and()
+			.loadThisIdFromEntity(VisEntityBalance.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityResumeView.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityResumeComment.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityPositionFeesToViewResume.INSTANCE).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityResume.INSTANCE).returnStatus(VisProcessStatus.inactiveResume).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityPosition.INSTANCE).returnStatus(VisProcessStatus.inactivePosition).and()
+			.ifThisIdIsPresentInEntity(VisEntityResumeNegativeted.INSTANCE).returnStatus(VisProcessStatus.negativatedResume).and()
+			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.INSTANCE).returnStatus(VisProcessStatus.notAllowedRecruiter).and()
 			.executeAction(action).andFinallyReturningThisFields()
 		.endThisProcedureRetrievingTheResultingData();
 		
