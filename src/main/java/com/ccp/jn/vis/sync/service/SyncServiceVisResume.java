@@ -7,6 +7,7 @@ import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.business.utils.JnSyncMensageriaSender;
 import com.ccp.validation.CcpJsonFieldsValidations;
 import com.ccp.vis.sync.validations.JsonFieldsValidationsVisResume;
+import com.jn.vis.commons.entities.VisEntityResume;
 import com.jn.vis.commons.utils.VisTopics;
 
 public class SyncServiceVisResume {
@@ -22,7 +23,9 @@ public class SyncServiceVisResume {
 		// As duas linhas abaixo colocam os dados para processar em processos paralelos (isso só é possível porque esses 
 		//  processos não têm interdependênica entre si).
 		CcpJsonRepresentation sendResultFromSaveResumeFile = ccpAsyncProcess.send(resume, VisTopics.saveResumeFile);
-		CcpJsonRepresentation sendResultFromSaveResume = ccpAsyncProcess.send(resume, VisTopics.saveResume);
+		// Vis.1.1
+		VisEntityResume.INSTANCE.createOrUpdate(resume);
+		CcpJsonRepresentation sendResultFromSaveResume = ccpAsyncProcess.send(resume, VisTopics.sendResumeToRecruiters);
 		// Nas linhas abaixo é iniciado um JSON vazio que concatena os dados de feedback dos dois processos paralelos acima.
 		// Esses dados são importantes por se referirem a tickets que servirão para o frontend verificar status do processo
 		//	paralelo.
