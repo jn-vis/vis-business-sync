@@ -19,6 +19,7 @@ public class SyncServiceVisResume {
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationsVisResume.class, json);
 		// Dados vem na URL e dados vem no JSON, a linha abaixo junta os dois grupos de informação.
 		CcpJsonRepresentation resume = new CcpJsonRepresentation(json).put("email", email);
+		//TODO caça as bruxas contra a palavra "new"
 		JnSyncMensageriaSender ccpAsyncProcess = new JnSyncMensageriaSender();
 		// As duas linhas abaixo colocam os dados para processar em processos paralelos (isso só é possível porque esses 
 		//  processos não têm interdependênica entre si).
@@ -30,8 +31,9 @@ public class SyncServiceVisResume {
 		// Esses dados são importantes por se referirem a tickets que servirão para o frontend verificar status do processo
 		//	paralelo.
 		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
+				.put("sendResumeToRecruiters", sendResultFromSaveResume)
 				.put("saveResumeFile", sendResultFromSaveResumeFile)
-				.put("saveResume", sendResultFromSaveResume);
+				;
 		
 		return  put.content;
 	}
