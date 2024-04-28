@@ -20,7 +20,7 @@ public class SyncServiceVisResumeView {
 		
 		Function<CcpJsonRepresentation, CcpJsonRepresentation> action = data -> {
 			
-			return null;
+			return data;
 		};
 		
 		CcpJsonRepresentation result = new CcpGetEntityId(values)
