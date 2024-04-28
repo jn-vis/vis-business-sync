@@ -16,7 +16,7 @@ public class SyncServiceVisResume {
 	public Map<String, Object> save(String email, Map<String, Object> json) {
 		// A linha abaixo trata-se de validações do campo do json; se quiser saber quais regras são essas, 
 		// 	entre na classe que termina com .class no final.
-		CcpJsonFieldsValidations.validate(JsonFieldsValidationsVisResume.class, json);
+		CcpJsonFieldsValidations.validate(JsonFieldsValidationsVisResume.class, json, "saveResume");
 		// Dados vem na URL e dados vem no JSON, a linha abaixo junta os dois grupos de informação.
 		CcpJsonRepresentation resume = new CcpJsonRepresentation(json).put("email", email);
 		//TODO caça as bruxas contra a palavra "new"
