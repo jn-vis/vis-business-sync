@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.business.utils.JnSyncMensageriaSender;
+import com.ccp.jn.sync.commons.JnSyncMensageriaSender;
 import com.ccp.validation.CcpJsonFieldsValidations;
 import com.ccp.vis.sync.validations.JsonFieldsValidationsVisResume;
 import com.jn.vis.commons.entities.VisEntityResume;
