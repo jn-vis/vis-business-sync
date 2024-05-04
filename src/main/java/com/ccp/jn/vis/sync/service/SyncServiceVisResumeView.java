@@ -3,7 +3,7 @@ package com.ccp.jn.vis.sync.service;
 import java.util.function.Function;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.especifications.db.dao.CcpGetEntityId;
+import com.ccp.especifications.db.crud.CcpGetEntityId;
 import com.ccp.jn.vis.sync.business.VisProcessStatus;
 import com.jn.vis.commons.entities.VisEntityBalance;
 import com.jn.vis.commons.entities.VisEntityDeniedViewToCompany;
