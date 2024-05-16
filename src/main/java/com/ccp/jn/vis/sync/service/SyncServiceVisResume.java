@@ -9,11 +9,12 @@ import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.commons.JnSyncMensageriaSender;
 import com.ccp.jn.sync.service.SyncServiceJnLogin;
 import com.ccp.validation.CcpJsonFieldsValidations;
-import com.ccp.vis.sync.validations.JsonFieldsValidationsVisResume;
 import com.jn.vis.commons.entities.VisEntityResume;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
+import com.jn.vis.commons.validations.JsonFieldsValidationsVisResume;
 
 public class SyncServiceVisResume {
+	
 	private final SyncServiceJnLogin loginService = new SyncServiceJnLogin();
 
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
@@ -25,7 +26,6 @@ public class SyncServiceVisResume {
 		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.sendResumeToRecruiters);
 
 		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.saveResumeFile);
-
 
 		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
 				.put("sendResumeToRecruiters", sendResultFromSaveResume)
@@ -58,7 +58,7 @@ public class SyncServiceVisResume {
 	}
 	
 	
-	public CcpJsonRepresentation getResume(CcpJsonRepresentation sessionValues) {
+	public CcpJsonRepresentation getData(CcpJsonRepresentation sessionValues) {
 		
 		this.loginService.validateSession(sessionValues);
 

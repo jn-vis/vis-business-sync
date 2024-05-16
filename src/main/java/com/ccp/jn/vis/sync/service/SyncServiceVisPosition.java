@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.validation.CcpJsonFieldsValidations;
-import com.ccp.vis.sync.validations.JsonFieldsValidationsVisPosition;
 import com.jn.vis.commons.entities.VisEntityPosition;
+import com.jn.vis.commons.validations.JsonFieldsValidationsVisPosition;
 
 public class SyncServiceVisPosition {
 
