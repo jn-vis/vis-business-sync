@@ -7,21 +7,20 @@ import com.ccp.especifications.db.crud.CcpCrud;
 import com.ccp.especifications.db.crud.CcpSelectUnionAll;
 import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.commons.JnSyncMensageriaSender;
-import com.ccp.jn.sync.service.SyncServiceJnLogin;
 import com.ccp.validation.CcpJsonFieldsValidations;
 import com.jn.vis.commons.entities.VisEntityResume;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
+import com.jn.vis.commons.utils.VisCommonsUtils;
 import com.jn.vis.commons.validations.JsonFieldsValidationsVisResume;
 
 public class SyncServiceVisResume {
 	
-	private final SyncServiceJnLogin loginService = new SyncServiceJnLogin();
 
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
 
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationsVisResume.class, resume.content, "saveResume");
 	
-		this.loginService.validateSession(resume);
+		VisCommonsUtils.removeFromCache(resume, "text", "file");
 
 		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.sendResumeToRecruiters);
 
@@ -37,7 +36,7 @@ public class SyncServiceVisResume {
 
 	public CcpJsonRepresentation delete(CcpJsonRepresentation sessionValues) {
 
-		this.loginService.validateSession(sessionValues);
+		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
 		
 		CcpJsonRepresentation deleteResume = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.deleteResume);
 
@@ -48,8 +47,8 @@ public class SyncServiceVisResume {
 
 	public CcpJsonRepresentation changeStatus(CcpJsonRepresentation sessionValues) {
 
-		this.loginService.validateSession(sessionValues);
-		
+		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
+
 		CcpJsonRepresentation changeResumeStatus = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.changeResumeStatus);
 
 		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put("changeResumeStatus", changeResumeStatus);
@@ -60,8 +59,6 @@ public class SyncServiceVisResume {
 	
 	public CcpJsonRepresentation getData(CcpJsonRepresentation sessionValues) {
 		
-		this.loginService.validateSession(sessionValues);
-
 		CcpCrud crud = CcpDependencyInjection.getDependency(CcpCrud.class);
 		
 		CcpEntity mirrorEntity = VisEntityResume.INSTANCE.getMirrorEntity();
@@ -77,6 +74,19 @@ public class SyncServiceVisResume {
 		
 		CcpJsonRepresentation requiredEntityRow = unionAll.getRequiredEntityRow(mirrorEntity, sessionValues);
 		CcpJsonRepresentation put = requiredEntityRow.put("activeResume", false);
+		return put;
+	}
+	
+	public CcpJsonRepresentation getResumeFile(CcpJsonRepresentation sessionValues) {
+		
+		String contentType = sessionValues.getAsString("contentType");
+		String email = sessionValues.getAsString("email");
+		
+		String resumeContent = VisCommonsUtils.getResumeContent(email, contentType);
+		
+		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
+				.put("content", resumeContent)
+				.put("type", contentType);
 		return put;
 	}
 
