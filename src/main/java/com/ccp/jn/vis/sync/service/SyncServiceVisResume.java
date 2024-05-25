@@ -64,7 +64,7 @@ public class SyncServiceVisResume {
 		CcpEntity mirrorEntity = VisEntityResume.INSTANCE.getMirrorEntity();
 		CcpSelectUnionAll unionAll = crud.unionAll(sessionValues, VisEntityResume.INSTANCE, mirrorEntity);
 		
-		boolean activeResume = unionAll.isPresent(VisEntityResume.INSTANCE, sessionValues);
+		boolean activeResume = VisEntityResume.INSTANCE.isPresentInThisUnionAll(unionAll, sessionValues);
 		
 		if(activeResume) {
 			CcpJsonRepresentation requiredEntityRow = unionAll.getRequiredEntityRow(VisEntityResume.INSTANCE, sessionValues);
