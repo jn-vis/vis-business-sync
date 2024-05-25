@@ -15,22 +15,24 @@ import com.jn.vis.commons.validations.JsonFieldsValidationsVisResume;
 
 public class SyncServiceVisResume {
 	
-
+	// Recebe as informações do currículo no formato de JSON 
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
-
+		// Valida o conteúdo das informações do currículo com os campos da tabela que receberá os dados
 		CcpJsonFieldsValidations.validate(JsonFieldsValidationsVisResume.class, resume.content, "saveResume");
-	
+		// Remove do cache a informação equivalente ao currículo que está entrando aqui
 		VisCommonsUtils.removeFromCache(resume, "text", "file");
-
+		// Realiza o envio do currículo inserido aos recrutadores
 		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.sendResumeToRecruiters);
-
+		// Guarda em forma de arquivo o currículo inserido
 		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.saveResumeFile);
-
+		// Cria uma variável do tipo JSON vazia 
 		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
+				// Incrementa na variável as informações do currículo enviadas aos recrutadores
 				.put("sendResumeToRecruiters", sendResultFromSaveResume)
+				// Incrementa na variável as informações do currículo que estão em JSON apesar de terem sido guardadas como arquivo
 				.put("saveResumeFile", sendResultFromSaveResumeFile)
 				;
-		
+		// Retorna essa variável de JSON com todoas as informações necessárias do currículo 
 		return  put;
 	}
 
