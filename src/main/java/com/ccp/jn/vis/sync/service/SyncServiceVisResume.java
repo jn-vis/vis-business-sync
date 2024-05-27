@@ -53,7 +53,7 @@ public class SyncServiceVisResume {
 
 		CcpJsonRepresentation changeResumeStatus = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.changeResumeStatus);
 
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put("changeResumeStatus", changeResumeStatus);
+		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put(VisAsyncBusiness.changeResumeStatus.name(), changeResumeStatus);
 
 		return put;
 	}
