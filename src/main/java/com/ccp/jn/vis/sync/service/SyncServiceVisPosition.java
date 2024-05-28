@@ -1,8 +1,7 @@
 package com.ccp.jn.vis.sync.service;
 
-import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.jn.sync.commons.JnSyncMensageriaSender;
+import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.validation.CcpJsonFieldsValidations;
 import com.jn.vis.commons.entities.VisEntityPosition;
 import com.jn.vis.commons.entities.VisEntityPositionResumes;
@@ -18,17 +17,15 @@ public class SyncServiceVisPosition {
 		CcpJsonRepresentation position = new CcpJsonRepresentation(json);
 		CcpJsonRepresentation createOrUpdate = VisEntityPosition.INSTANCE.createOrUpdate(position);
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(createOrUpdate, VisAsyncBusiness.resumesSearchToPosition);
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put(VisAsyncBusiness.resumesSearchToPosition.name(), result);
-		return put;
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(createOrUpdate, VisAsyncBusiness.positionListingResumes);
+		return result;
 		
 	}
 	
 	public CcpJsonRepresentation changeStatus(CcpJsonRepresentation json) {
 
 		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.positionChangeStatus);
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put(VisAsyncBusiness.positionChangeStatus.name(), result);
-		return put;
+		return result;
 	}
 	
 	
@@ -48,22 +45,19 @@ public class SyncServiceVisPosition {
 		return oneById;
 	}
 
-
 	public CcpJsonRepresentation getResumeContent(CcpJsonRepresentation json) {
 		CcpJsonRepresentation result = VisCommonsUtils.getResume(json);
 		return result;
 	}
 
 	public CcpJsonRepresentation sendResumesToEmail(CcpJsonRepresentation json) {
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumesPositionSendToEmails);
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put(VisAsyncBusiness.resumesPositionSendToEmails.name(), result);
-		return put;
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.positionSendResumesToEmails);
+		return result;
 	}
 
 	public CcpJsonRepresentation suggestNewSkills(CcpJsonRepresentation json) {
 		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.skillsSuggest);
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put(VisAsyncBusiness.skillsSuggest.name(), result);
-		return put;
+		return result;
 	}
 
 }

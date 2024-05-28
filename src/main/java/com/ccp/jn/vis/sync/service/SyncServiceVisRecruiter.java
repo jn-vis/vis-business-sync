@@ -1,11 +1,10 @@
 package com.ccp.jn.vis.sync.service;
 
-import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.especifications.db.crud.CcpCrud;
 import com.ccp.especifications.db.crud.CcpSelectUnionAll;
-import com.ccp.jn.sync.commons.JnSyncMensageriaSender;
+import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.jn.vis.commons.entities.VisEntityPositionsByRecruiter;
 import com.jn.vis.commons.entities.VisEntityResumesSeen;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
@@ -18,9 +17,8 @@ public class SyncServiceVisRecruiter {
 	
 	public CcpJsonRepresentation sendResumesToEmail(CcpJsonRepresentation json) {
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.sendResumesToEmails);
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON.put(VisAsyncBusiness.sendResumesToEmails.name(), result);
-		return put;
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.recruiterReceivingResumes);
+		return result;
 	}
 
 	public CcpJsonRepresentation getAlreadySeenResumes(CcpJsonRepresentation json) {
