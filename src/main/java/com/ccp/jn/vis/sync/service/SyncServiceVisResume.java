@@ -43,7 +43,7 @@ public class SyncServiceVisResume {
 
 		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.resumeChangeStatus);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.resumeStatusChange);
 
 		return result;
 	}

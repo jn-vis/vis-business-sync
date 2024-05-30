@@ -13,12 +13,12 @@ public class SyncServiceVisResumeOpinion {
 	}
 
 	public CcpJsonRepresentation saveOpinionAboutThisResume(CcpJsonRepresentation json) {
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumeSaveOpinion);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumeOpinionSave);
 		return result;
 	}
 
 	public CcpJsonRepresentation changeOpinionAboutThisResume(CcpJsonRepresentation json) {
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumeChangeOpinion);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumeOpinionChange);
 		return result;
 	}
 }
