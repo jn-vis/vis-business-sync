@@ -13,6 +13,10 @@ import com.jn.vis.commons.utils.VisCommonsUtils;
 
 public class SyncServiceVisResume {
 	
+	private SyncServiceVisResume() {}
+	
+	public static final SyncServiceVisResume INSTANCE = new SyncServiceVisResume();
+	
 	// Recebe as informações do currículo no formato de JSON 
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
 		// Realiza o envio do currículo inserido aos recrutadores
@@ -68,7 +72,6 @@ public class SyncServiceVisResume {
 		CcpJsonRepresentation put = requiredEntityRow.put("activeResume", false);
 		return put;
 	}
-	
 	public CcpJsonRepresentation getResumeFile(CcpJsonRepresentation sessionValues) {
 		
 		String contentType = sessionValues.getAsString("contentType");
