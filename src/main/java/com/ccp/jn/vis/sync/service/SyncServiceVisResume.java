@@ -58,17 +58,17 @@ public class SyncServiceVisResume {
 		CcpCrud crud = CcpDependencyInjection.getDependency(CcpCrud.class);
 		
 		CcpEntity mirrorEntity = VisEntityResume.INSTANCE.getMirrorEntity();
-		CcpSelectUnionAll unionAll = crud.unionAll(sessionValues, VisEntityResume.INSTANCE, mirrorEntity);
+		CcpSelectUnionAll searchResults = crud.unionAll(sessionValues, VisEntityResume.INSTANCE, mirrorEntity);
 		
-		boolean activeResume = VisEntityResume.INSTANCE.isPresentInThisUnionAll(unionAll, sessionValues);
+		boolean activeResume = VisEntityResume.INSTANCE.isPresentInThisUnionAll(searchResults, sessionValues);
 		
 		if(activeResume) {
-			CcpJsonRepresentation requiredEntityRow = unionAll.getRequiredEntityRow(VisEntityResume.INSTANCE, sessionValues);
+			CcpJsonRepresentation requiredEntityRow = VisEntityResume.INSTANCE.getRequiredEntityRow(searchResults, sessionValues);
 			CcpJsonRepresentation put = requiredEntityRow.put("activeResume", true);
 			return put;
 		}
 		
-		CcpJsonRepresentation requiredEntityRow = unionAll.getRequiredEntityRow(mirrorEntity, sessionValues);
+		CcpJsonRepresentation requiredEntityRow = mirrorEntity.getRequiredEntityRow(searchResults, sessionValues);
 		CcpJsonRepresentation put = requiredEntityRow.put("activeResume", false);
 		return put;
 	}
@@ -77,6 +77,7 @@ public class SyncServiceVisResume {
 		String contentType = sessionValues.getAsString("contentType");
 		String email = sessionValues.getAsString("email");
 		
+		
 		String resumeContent = VisCommonsUtils.getResumeContent(email, contentType);
 		
 		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
@@ -84,5 +85,6 @@ public class SyncServiceVisResume {
 				.put("type", contentType);
 		return put;
 	}
+
 
 }
