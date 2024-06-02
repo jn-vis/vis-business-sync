@@ -1,6 +1,5 @@
 package com.ccp.jn.vis.sync.service;
 
-import java.util.function.Function;
 
 import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
@@ -11,14 +10,21 @@ import com.ccp.especifications.db.crud.CcpSelectUnionAll;
 import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.jn.vis.sync.business.GetResumeContent;
-import com.ccp.jn.vis.sync.business.VisProcessStatus;
+import com.ccp.jn.vis.sync.business.SaveResumeViewFailed;
 import com.jn.vis.commons.entities.VisEntityBalance;
 import com.jn.vis.commons.entities.VisEntityDeniedViewToCompany;
+import com.jn.vis.commons.entities.VisEntityFees;
 import com.jn.vis.commons.entities.VisEntityGroupResumesByPosition;
 import com.jn.vis.commons.entities.VisEntityPosition;
 import com.jn.vis.commons.entities.VisEntityResume;
-import com.jn.vis.commons.entities.VisEntityScheduleSendingResumeFees;
+import com.jn.vis.commons.entities.VisEntityResumeFreeView;
+import com.jn.vis.commons.entities.VisEntityResumeLastView;
+import com.jn.vis.commons.entities.VisEntityResumeOpinion;
 import com.jn.vis.commons.entities.VisEntitySkill;
+import com.jn.vis.commons.entities.VisEntitySkillApproved;
+import com.jn.vis.commons.entities.VisEntitySkillRejected;
+import com.jn.vis.commons.status.SuggestNewSkillStatus;
+import com.jn.vis.commons.status.ViewResumeStatus;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
 
 public class SyncServiceVisPosition {
@@ -29,14 +35,14 @@ public class SyncServiceVisPosition {
 	
 	public CcpJsonRepresentation save(CcpJsonRepresentation json) {
 		
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.positionSave);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.positionSave).apply(json);
 		
 		return result;
 	}
 	
 	public CcpJsonRepresentation changeStatus(CcpJsonRepresentation json) {
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.positionStatusChange);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.positionStatusChange).apply(json);
 		
 		return result;
 	}
@@ -75,29 +81,41 @@ public class SyncServiceVisPosition {
 		
 		return oneById;
 	}
-	//TODO REGISTRAR VISUALIZAÇÃO POR DENTRO DA VAGAS
+
 	public CcpJsonRepresentation getResumeContent(CcpJsonRepresentation json) {
-		//TODO REGISTRAR OCORRENCIA
-		Function<CcpJsonRepresentation, CcpJsonRepresentation> registerInactiveResume = CcpConstants.DO_NOTHING;
-		
+
 		CcpJsonRepresentation findById =  new CcpGetEntityId(json)
 		.toBeginProcedureAnd()
-			.ifThisIdIsNotPresentInEntity(VisEntityBalance.INSTANCE).returnStatus(VisProcessStatus.missingBalance).and()
-			.ifThisIdIsNotPresentInEntity(VisEntityScheduleSendingResumeFees.INSTANCE).returnStatus(VisProcessStatus.missingFee).and()
-			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.INSTANCE).returnStatus(VisProcessStatus.notAllowedRecruiter).and()
-			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE.getMirrorEntity()).executeAction(registerInactiveResume).and()
-			.ifThisIdIsNotPresentInEntity(VisEntityResume.INSTANCE).returnStatus(VisProcessStatus.inactiveResume).and()
+			.loadThisIdFromEntity(VisEntityPosition.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityResumeOpinion.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityResumeFreeView.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityResumeLastView.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityPosition.INSTANCE.getMirrorEntity()).and()
+			.loadThisIdFromEntity(VisEntityResumeOpinion.INSTANCE.getMirrorEntity()).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityBalance.INSTANCE).returnStatus(ViewResumeStatus.missingBalance).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityFees.INSTANCE).returnStatus(ViewResumeStatus.missingFee).and()
+			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.INSTANCE).returnStatus(ViewResumeStatus.notAllowedRecruiter).and()
+			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE.getMirrorEntity()).returnStatus(ViewResumeStatus.inactiveResume).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityResume.INSTANCE).returnStatus(ViewResumeStatus.resumeNotFound).and()
 			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE).executeAction(GetResumeContent.INSTANCE).andFinallyReturningThisFields()
-		.endThisProcedureRetrievingTheResultingData();
+		.endThisProcedureRetrievingTheResultingData(SaveResumeViewFailed.INSTANCE);
 		
 		return findById;
 	}
 
 	public CcpJsonRepresentation suggestNewSkills(CcpJsonRepresentation json) {
 		
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.skillsSuggest);
+		CcpJsonRepresentation findById =  new CcpGetEntityId(json)
+		.toBeginProcedureAnd()
+			.ifThisIdIsPresentInEntity(VisEntitySkill.INSTANCE).returnStatus(SuggestNewSkillStatus.alreadyExists).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.INSTANCE).returnStatus(SuggestNewSkillStatus.approvedSkill).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillRejected.INSTANCE).returnStatus(SuggestNewSkillStatus.rejectedSkill).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.INSTANCE.getMirrorEntity()).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
+			.ifThisIdIsNotPresentInEntity(VisEntitySkill.INSTANCE).executeAction(JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.skillsSuggest))
+			.andFinallyReturningThisFields()
+		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING);
 		
-		return result;
+		return findById;
 	}
 
 }

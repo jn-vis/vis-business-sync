@@ -14,7 +14,7 @@ public class SyncServiceVisRecruiter {
 	
 	public CcpJsonRepresentation sendResumesToEmail(CcpJsonRepresentation json) {
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.recruiterReceivingResumes);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.recruiterReceivingResumes).apply(json);
 		return result;
 	}
 
@@ -32,12 +32,12 @@ public class SyncServiceVisRecruiter {
 	}
 
 	public CcpJsonRepresentation saveOpinionAboutThisResume(CcpJsonRepresentation json) {
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumeOpinionSave);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeOpinionSave).apply(json);
 		return result;
 	}
 
 	public CcpJsonRepresentation changeOpinionAboutThisResume(CcpJsonRepresentation json) {
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(json, VisAsyncBusiness.resumeOpinionChange);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeOpinionChange).apply(json);
 		return result;
 	}
 

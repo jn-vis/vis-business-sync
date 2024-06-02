@@ -20,9 +20,9 @@ public class SyncServiceVisResume {
 	// Recebe as informações do currículo no formato de JSON 
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
 		// Realiza o envio do currículo inserido aos recrutadores
-		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.resumeSave);
+		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeSave).apply(resume);
 		// Guarda em forma de arquivo o currículo inserido
-		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE.send(resume, VisAsyncBusiness.resumeBucketSave);
+		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeBucketSave).apply(resume);
 		// Remove do cache a informação equivalente ao currículo que está entrando aqui
 		VisCommonsUtils.removeFromCache(resume, "text", "file");
 		// Cria uma variável do tipo JSON vazia 
@@ -38,7 +38,7 @@ public class SyncServiceVisResume {
 
 		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
 		
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.resumeDelete);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeDelete).apply(sessionValues);
 
 		return result;
 	}
@@ -47,7 +47,7 @@ public class SyncServiceVisResume {
 
 		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.send(sessionValues, VisAsyncBusiness.resumeStatusChange);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeStatusChange).apply(sessionValues);
 
 		return result;
 	}
