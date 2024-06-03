@@ -26,6 +26,7 @@ import com.jn.vis.commons.entities.VisEntitySkillRejected;
 import com.jn.vis.commons.status.SuggestNewSkillStatus;
 import com.jn.vis.commons.status.ViewResumeStatus;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
+import com.jn.vis.commons.utils.VisCommonsUtils;
 
 public class SyncServiceVisPosition {
 	
@@ -74,12 +75,17 @@ public class SyncServiceVisPosition {
 		return oneById;
 	}
 	
-	//FIXME FALTANDO LOGICA DE EXTRAIR SKILLS DA VAGA
 	public CcpJsonRepresentation getImportantSkillsFromText(CcpJsonRepresentation json) {
 		
 		CcpJsonRepresentation oneById = VisEntitySkill.INSTANCE.fromCache().getOneById(json);
 		
-		return oneById;
+		CcpJsonRepresentation jsonWithSkills = VisCommonsUtils.getJsonWithSkills(
+				oneById
+				, VisEntityPosition.Fields.description.name()
+				, VisEntityPosition.Fields.mandatorySkill.name()
+				);
+		
+		return jsonWithSkills;
 	}
 
 	public CcpJsonRepresentation getResumeContent(CcpJsonRepresentation json) {
