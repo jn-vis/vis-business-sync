@@ -19,7 +19,7 @@ import com.jn.vis.commons.entities.VisEntityPosition;
 import com.jn.vis.commons.entities.VisEntityResume;
 import com.jn.vis.commons.entities.VisEntityResumeFreeView;
 import com.jn.vis.commons.entities.VisEntityResumeLastView;
-import com.jn.vis.commons.entities.VisEntityResumeOpinion;
+import com.jn.vis.commons.entities.VisEntityResumePerception;
 import com.jn.vis.commons.entities.VisEntitySkill;
 import com.jn.vis.commons.entities.VisEntitySkillApproved;
 import com.jn.vis.commons.entities.VisEntitySkillRejected;
@@ -93,11 +93,11 @@ public class SyncServiceVisPosition {
 		CcpJsonRepresentation findById =  new CcpGetEntityId(json)
 		.toBeginProcedureAnd()
 			.loadThisIdFromEntity(VisEntityPosition.INSTANCE).and()
-			.loadThisIdFromEntity(VisEntityResumeOpinion.INSTANCE).and()
+			.loadThisIdFromEntity(VisEntityResumePerception.INSTANCE).and()
 			.loadThisIdFromEntity(VisEntityResumeFreeView.INSTANCE).and()
 			.loadThisIdFromEntity(VisEntityResumeLastView.INSTANCE).and()
 			.loadThisIdFromEntity(VisEntityPosition.INSTANCE.getMirrorEntity()).and()
-			.loadThisIdFromEntity(VisEntityResumeOpinion.INSTANCE.getMirrorEntity()).and()
+			.loadThisIdFromEntity(VisEntityResumePerception.INSTANCE.getMirrorEntity()).and()
 			.ifThisIdIsNotPresentInEntity(VisEntityBalance.INSTANCE).returnStatus(ViewResumeStatus.missingBalance).and()
 			.ifThisIdIsNotPresentInEntity(VisEntityFees.INSTANCE).returnStatus(ViewResumeStatus.missingFee).and()
 			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.INSTANCE).returnStatus(ViewResumeStatus.notAllowedRecruiter).and()

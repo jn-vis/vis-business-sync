@@ -3,7 +3,7 @@ package com.ccp.jn.vis.sync.service;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.jn.vis.commons.entities.VisEntityGroupPositionsByRecruiter;
-import com.jn.vis.commons.entities.VisEntityGroupResumesOpinionsByRecruiter;
+import com.jn.vis.commons.entities.VisEntityGroupResumesPerceptionsByRecruiter;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
 
 public class SyncServiceVisRecruiter {
@@ -20,7 +20,7 @@ public class SyncServiceVisRecruiter {
 
 	public CcpJsonRepresentation getAlreadySeenResumes(CcpJsonRepresentation json) {
 
-		CcpJsonRepresentation oneByIdFromMirrorOrFromCache = VisEntityGroupResumesOpinionsByRecruiter.INSTANCE.getOneByIdFromMirrorOrFromCache(json);
+		CcpJsonRepresentation oneByIdFromMirrorOrFromCache = VisEntityGroupResumesPerceptionsByRecruiter.INSTANCE.getOneByIdFromMirrorOrFromCache(json);
 		return oneByIdFromMirrorOrFromCache;
 	}
 
