@@ -20,9 +20,11 @@ public class SyncServiceVisResume {
 	// Recebe as informações do currículo no formato de JSON 
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
 		// Realiza o envio do currículo inserido aos recrutadores
-		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeSave).apply(resume);
+		CcpJsonRepresentation sendResultFromSaveResume = JnSyncMensageriaSender.INSTANCE
+				.whenSendMessage(VisAsyncBusiness.resumeSave).apply(resume);
 		// Guarda em forma de arquivo o currículo inserido
-		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeBucketSave).apply(resume);
+		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE
+				.whenSendMessage(VisAsyncBusiness.resumeBucketSave).apply(resume);
 		// Remove do cache a informação equivalente ao currículo que está entrando aqui
 		VisCommonsUtils.removeFromCache(resume, "text", "file");
 		// Cria uma variável do tipo JSON vazia 
