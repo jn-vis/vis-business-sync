@@ -10,7 +10,7 @@ import com.ccp.especifications.db.crud.CcpSelectUnionAll;
 import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.jn.vis.sync.business.GetResumeContent;
-import com.ccp.jn.vis.sync.business.SaveResumeViewFailed;
+import com.ccp.jn.vis.sync.business.ResumeSaveViewFailed;
 import com.jn.vis.commons.entities.VisEntityBalance;
 import com.jn.vis.commons.entities.VisEntityDeniedViewToCompany;
 import com.jn.vis.commons.entities.VisEntityFees;
@@ -104,7 +104,7 @@ public class SyncServiceVisPosition {
 			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE.getMirrorEntity()).returnStatus(ViewResumeStatus.inactiveResume).and()
 			.ifThisIdIsNotPresentInEntity(VisEntityResume.INSTANCE).returnStatus(ViewResumeStatus.resumeNotFound).and()
 			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE).executeAction(GetResumeContent.INSTANCE).andFinallyReturningThisFields()
-		.endThisProcedureRetrievingTheResultingData(SaveResumeViewFailed.INSTANCE);
+		.endThisProcedureRetrievingTheResultingData(ResumeSaveViewFailed.INSTANCE);
 		
 		return findById;
 	}

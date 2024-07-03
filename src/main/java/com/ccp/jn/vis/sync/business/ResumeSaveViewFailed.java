@@ -5,11 +5,11 @@ import java.util.function.Function;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.jn.vis.commons.entities.VisEntityResumeViewFailed;
 
-public class SaveResumeViewFailed implements Function<CcpJsonRepresentation, CcpJsonRepresentation> {
+public class ResumeSaveViewFailed implements Function<CcpJsonRepresentation, CcpJsonRepresentation> {
 
-	private SaveResumeViewFailed() {}
+	private ResumeSaveViewFailed() {}
 	
-	public static final SaveResumeViewFailed INSTANCE = new SaveResumeViewFailed();
+	public static final ResumeSaveViewFailed INSTANCE = new ResumeSaveViewFailed();
 	
 	public CcpJsonRepresentation apply(CcpJsonRepresentation json) {
 		String status = json.getValueFromPath("", "errorDetails", "status");
