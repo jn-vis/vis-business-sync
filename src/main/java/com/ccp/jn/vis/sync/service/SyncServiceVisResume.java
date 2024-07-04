@@ -9,9 +9,9 @@ import com.ccp.especifications.db.crud.CcpCrud;
 import com.ccp.especifications.db.crud.CcpSelectUnionAll;
 import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
-import com.jn.vis.commons.entities.VisEntityResume;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
 import com.jn.vis.commons.utils.VisCommonsUtils;
+import com.vis.commons.entities.VisEntityResume;
 
 public class SyncServiceVisResume {
 	

@@ -11,22 +11,22 @@ import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.jn.vis.sync.business.GetResumeContent;
 import com.ccp.jn.vis.sync.business.ResumeSaveViewFailed;
-import com.jn.vis.commons.entities.VisEntityBalance;
-import com.jn.vis.commons.entities.VisEntityDeniedViewToCompany;
-import com.jn.vis.commons.entities.VisEntityFees;
-import com.jn.vis.commons.entities.VisEntityGroupResumesByPosition;
-import com.jn.vis.commons.entities.VisEntityPosition;
-import com.jn.vis.commons.entities.VisEntityResume;
-import com.jn.vis.commons.entities.VisEntityResumeFreeView;
-import com.jn.vis.commons.entities.VisEntityResumeLastView;
-import com.jn.vis.commons.entities.VisEntityResumePerception;
-import com.jn.vis.commons.entities.VisEntitySkill;
-import com.jn.vis.commons.entities.VisEntitySkillApproved;
-import com.jn.vis.commons.entities.VisEntitySkillRejected;
 import com.jn.vis.commons.status.SuggestNewSkillStatus;
 import com.jn.vis.commons.status.ViewResumeStatus;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
 import com.jn.vis.commons.utils.VisCommonsUtils;
+import com.vis.commons.entities.VisEntityBalance;
+import com.vis.commons.entities.VisEntityDeniedViewToCompany;
+import com.vis.commons.entities.VisEntityFees;
+import com.vis.commons.entities.VisEntityGroupResumesByPosition;
+import com.vis.commons.entities.VisEntityPosition;
+import com.vis.commons.entities.VisEntityResume;
+import com.vis.commons.entities.VisEntityResumeFreeView;
+import com.vis.commons.entities.VisEntityResumeLastView;
+import com.vis.commons.entities.VisEntityResumePerception;
+import com.vis.commons.entities.VisEntitySkill;
+import com.vis.commons.entities.VisEntitySkillApproved;
+import com.vis.commons.entities.VisEntitySkillRejected;
 
 public class SyncServiceVisPosition {
 	

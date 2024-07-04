@@ -3,7 +3,7 @@ package com.ccp.jn.vis.sync.business;
 import java.util.function.Function;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.jn.vis.commons.entities.VisEntityResumeViewFailed;
+import com.vis.commons.entities.VisEntityResumeViewFailed;
 
 public class ResumeSaveViewFailed implements Function<CcpJsonRepresentation, CcpJsonRepresentation> {
 

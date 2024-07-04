@@ -5,12 +5,12 @@ import java.util.function.Function;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.exceptions.process.CcpFlow;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
-import com.jn.vis.commons.entities.VisEntityBalance;
-import com.jn.vis.commons.entities.VisEntityFees;
-import com.jn.vis.commons.entities.VisEntityResumeViewFailed;
 import com.jn.vis.commons.status.ViewResumeStatus;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
 import com.jn.vis.commons.utils.VisCommonsUtils;
+import com.vis.commons.entities.VisEntityBalance;
+import com.vis.commons.entities.VisEntityFees;
+import com.vis.commons.entities.VisEntityResumeViewFailed;
 
 public class GetResumeContent implements Function<CcpJsonRepresentation, CcpJsonRepresentation>{
 	
