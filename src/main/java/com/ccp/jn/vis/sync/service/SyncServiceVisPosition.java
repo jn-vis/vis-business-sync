@@ -82,7 +82,7 @@ public class SyncServiceVisPosition {
 		CcpJsonRepresentation jsonWithSkills = VisCommonsUtils.getJsonWithSkills(
 				oneById
 				, VisEntityPosition.Fields.description.name()
-				, VisEntityPosition.Fields.mandatorySkill.name()
+				, VisEntityPosition.Fields.requiredSkill.name()
 				);
 		
 		return jsonWithSkills;
