@@ -28,8 +28,6 @@ public class SyncServiceVisResume {
 		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE
 				.whenSendMessage(VisAsyncBusiness.resumeBucketSave).apply(resume);
 
-		VisCommonsUtils.removeFromCache(resume, "text", "file");
-
 		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
 				.putAll(sendResultFromSaveResumeFile)
 				.putAll(sendResultFromSaveResume)
@@ -39,16 +37,12 @@ public class SyncServiceVisResume {
 
 	public CcpJsonRepresentation delete(CcpJsonRepresentation sessionValues) {
 
-		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
-		
 		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeDelete).apply(sessionValues);
 
 		return result;
 	}
 
 	public CcpJsonRepresentation changeStatus(CcpJsonRepresentation sessionValues) {
-
-		VisCommonsUtils.removeFromCache(sessionValues, "text", "file");
 
 		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeStatusChange).apply(sessionValues);
 
@@ -75,18 +69,12 @@ public class SyncServiceVisResume {
 		CcpJsonRepresentation put = requiredEntityRow.put("activeResume", false);
 		return put;
 	}
-	public CcpJsonRepresentation getResumeFile(CcpJsonRepresentation sessionValues) {
-		
-		String contentType = sessionValues.getAsString("contentType");
-		String email = sessionValues.getAsString("email");
+	public CcpJsonRepresentation getResumeFile(CcpJsonRepresentation json) {
 		
 		
-		String resumeContent = VisCommonsUtils.getResumeContent(email, contentType);
-		
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
-				.put("content", resumeContent)
-				.put("type", contentType);
-		return put;
+		CcpJsonRepresentation resume = VisCommonsUtils.getResumeFromBucket(json);
+
+		return resume;
 	}
 
 
