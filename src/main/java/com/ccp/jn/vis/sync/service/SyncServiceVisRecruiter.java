@@ -24,7 +24,7 @@ public class SyncServiceVisRecruiter {
 		return oneByIdFromMirrorOrFromCache;
 	}
 
-	//FIXME CACHE QUANDO ESTIVER EM COMPUTE ENGINE
+	//FIXME CACHE LOCAL NO COMPUTE ENGINE
 	public CcpJsonRepresentation getPositionsFromThisRecruiter(CcpJsonRepresentation json) {
 
 		CcpJsonRepresentation oneByIdFromMirrorOrFromCache = VisEntityGroupPositionsByRecruiter.INSTANCE.getOneByIdFromMirrorOrFromCache(json);

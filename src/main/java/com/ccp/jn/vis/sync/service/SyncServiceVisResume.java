@@ -2,7 +2,6 @@ package com.ccp.jn.vis.sync.service;
 
 import java.util.function.Function;
 
-import com.ccp.constantes.CcpConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.especifications.db.crud.CcpCrud;
@@ -21,23 +20,18 @@ public class SyncServiceVisResume {
 	
 	public CcpJsonRepresentation save(CcpJsonRepresentation resume) {
 
-		Function<CcpJsonRepresentation, CcpJsonRepresentation> whenSendMessage = JnSyncMensageriaSender.INSTANCE
-				.whenSendMessage(VisAsyncBusiness.resumeSave);
-		CcpJsonRepresentation sendResultFromSaveResume = whenSendMessage.apply(resume);
+		Function<CcpJsonRepresentation, CcpJsonRepresentation> resumeBucketSave =
+				JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resume);
 
-		CcpJsonRepresentation sendResultFromSaveResumeFile = JnSyncMensageriaSender.INSTANCE
-				.whenSendMessage(VisAsyncBusiness.resumeBucketSave).apply(resume);
+		CcpJsonRepresentation sendResultFromSaveResumeFile = resumeBucketSave.apply(resume);
 
-		CcpJsonRepresentation put = CcpConstants.EMPTY_JSON
-				.putAll(sendResultFromSaveResumeFile)
-				.putAll(sendResultFromSaveResume)
-				;
-		return  put;
+		return  sendResultFromSaveResumeFile;
 	}
 
 	public CcpJsonRepresentation delete(CcpJsonRepresentation sessionValues) {
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeDelete).apply(sessionValues);
+		CcpJsonRepresentation result = JnSyncMensageriaSender
+				.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeDelete).apply(sessionValues);
 
 		return result;
 	}
@@ -71,11 +65,8 @@ public class SyncServiceVisResume {
 	}
 	public CcpJsonRepresentation getResumeFile(CcpJsonRepresentation json) {
 		
-		
 		CcpJsonRepresentation resume = VisCommonsUtils.getResumeFromBucket(json);
 
 		return resume;
 	}
-
-
 }
