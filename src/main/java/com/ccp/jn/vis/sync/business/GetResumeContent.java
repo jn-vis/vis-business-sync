@@ -34,7 +34,7 @@ public class GetResumeContent implements Function<CcpJsonRepresentation, CcpJson
 		if(insufficientFunds) {
 			CcpJsonRepresentation put = json.put("status", ViewResumeStatus.insufficientFunds);
 			VisEntityResumeViewFailed.INSTANCE.createOrUpdate(put);
-			throw new CcpFlow(json, ViewResumeStatus.insufficientFunds.status());
+			throw new CcpFlow(json, ViewResumeStatus.insufficientFunds);
 		}
 		
 		JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.resumeViewSave).apply(json);
