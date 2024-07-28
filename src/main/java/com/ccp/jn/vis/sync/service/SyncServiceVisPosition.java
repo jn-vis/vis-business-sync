@@ -11,10 +11,10 @@ import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.jn.vis.sync.business.GetResumeContent;
 import com.ccp.jn.vis.sync.business.ResumeSaveViewFailed;
+import com.jn.vis.commons.cache.tasks.PutSkillsInJson;
 import com.jn.vis.commons.status.SuggestNewSkillStatus;
 import com.jn.vis.commons.status.ViewResumeStatus;
 import com.jn.vis.commons.utils.VisAsyncBusiness;
-import com.jn.vis.commons.utils.VisCommonsUtils;
 import com.vis.commons.entities.VisEntityBalance;
 import com.vis.commons.entities.VisEntityDeniedViewToCompany;
 import com.vis.commons.entities.VisEntityFees;
@@ -78,12 +78,13 @@ public class SyncServiceVisPosition {
 	public CcpJsonRepresentation getImportantSkillsFromText(CcpJsonRepresentation json) {
 		
 		CcpJsonRepresentation oneById = VisEntitySkill.INSTANCE.fromCache().getOneById(json);
-		
-		CcpJsonRepresentation jsonWithSkills = VisCommonsUtils.getJsonWithSkills(
-				oneById
-				, VisEntityPosition.Fields.description.name()
-				, VisEntityPosition.Fields.requiredSkill.name()
+
+		PutSkillsInJson putSkillsInJson = new PutSkillsInJson(
+				VisEntityPosition.Fields.description.name(), 
+				VisEntityPosition.Fields.requiredSkill.name()
 				);
+		
+		CcpJsonRepresentation jsonWithSkills = oneById.getTransformedJson(putSkillsInJson);
 		
 		return jsonWithSkills;
 	}
