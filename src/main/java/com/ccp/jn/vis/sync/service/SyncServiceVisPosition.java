@@ -36,14 +36,14 @@ public class SyncServiceVisPosition {
 	
 	public CcpJsonRepresentation save(CcpJsonRepresentation json) {
 		
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.positionSave).apply(json);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.sendJsonToTopic(VisAsyncBusiness.positionSave, json);
 		
 		return result;
 	}
 	
 	public CcpJsonRepresentation changeStatus(CcpJsonRepresentation json) {
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.positionStatusChange).apply(json);
+		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.sendJsonToTopic(VisAsyncBusiness.positionStatusChange, json);
 		
 		return result;
 	}
