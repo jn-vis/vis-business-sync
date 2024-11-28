@@ -37,7 +37,7 @@ public class GetResumeContent implements Function<CcpJsonRepresentation, CcpJson
 			throw new CcpFlow(json, ViewResumeStatus.insufficientFunds);
 		}
 		
-		JnSyncMensageriaSender.INSTANCE.sendJsonToTopic(VisAsyncBusiness.resumeViewSave, json);
+		new JnSyncMensageriaSender(VisAsyncBusiness.resumeViewSave).apply(json);
 		//TODO IMPLEMENTAR LOGICA PARA FORMAR NOME DO ARQUIVO DO CURRICULO EM CASO DE SER RECRUTADOR BAIXANDO POR VAGA OU NAO
 		CcpJsonRepresentation resume = VisCommonsUtils.getResumeFromBucket(json);
 		

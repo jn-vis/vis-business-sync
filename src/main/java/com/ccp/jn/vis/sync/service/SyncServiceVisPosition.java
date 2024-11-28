@@ -36,14 +36,14 @@ public class SyncServiceVisPosition {
 	
 	public CcpJsonRepresentation save(CcpJsonRepresentation json) {
 		
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.sendJsonToTopic(VisAsyncBusiness.positionSave, json);
+		CcpJsonRepresentation result = new JnSyncMensageriaSender(VisAsyncBusiness.positionSave).apply(json);
 		
 		return result;
 	}
 	
 	public CcpJsonRepresentation changeStatus(CcpJsonRepresentation json) {
 
-		CcpJsonRepresentation result = JnSyncMensageriaSender.INSTANCE.sendJsonToTopic(VisAsyncBusiness.positionStatusChange, json);
+		CcpJsonRepresentation result = new JnSyncMensageriaSender(VisAsyncBusiness.positionStatusChange).apply(json);
 		
 		return result;
 	}
@@ -118,7 +118,7 @@ public class SyncServiceVisPosition {
 			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.INSTANCE).returnStatus(SuggestNewSkillStatus.approvedSkill).and()
 			.ifThisIdIsPresentInEntity(VisEntitySkillRejected.INSTANCE).returnStatus(SuggestNewSkillStatus.rejectedSkill).and()
 			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.INSTANCE.getMirrorEntity()).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
-			.ifThisIdIsNotPresentInEntity(VisEntitySkill.INSTANCE).executeAction(JnSyncMensageriaSender.INSTANCE.whenSendMessage(VisAsyncBusiness.skillsSuggest))
+			.ifThisIdIsNotPresentInEntity(VisEntitySkill.INSTANCE).executeAction(new JnSyncMensageriaSender(VisAsyncBusiness.skillsSuggest))
 			.andFinallyReturningThisFields()
 		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING);
 		
