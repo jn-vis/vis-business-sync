@@ -26,14 +26,14 @@ public class GetResumeContent implements Function<CcpJsonRepresentation, CcpJson
 		 * VisEntityResumeOpinion.INSTANCE.getMirrorEntity()
 		 * VisEntityPosition
 		 */
-		CcpJsonRepresentation balance =  VisEntityBalance.INSTANCE.getInnerJsonFromMainAndMirrorEntities(json);
-		CcpJsonRepresentation fee =  VisEntityFees.INSTANCE.getInnerJsonFromMainAndMirrorEntities(json);
+		CcpJsonRepresentation balance =  VisEntityBalance.ENTITY.getInnerJsonFromMainAndTwinEntities(json);
+		CcpJsonRepresentation fee =  VisEntityFees.ENTITY.getInnerJsonFromMainAndTwinEntities(json);
 		
 		boolean insufficientFunds = VisCommonsUtils.isInsufficientFunds(1, fee, balance);
 		
 		if(insufficientFunds) {
 			CcpJsonRepresentation put = json.put("status", ViewResumeStatus.insufficientFunds);
-			VisEntityResumeViewFailed.INSTANCE.createOrUpdate(put);
+			VisEntityResumeViewFailed.ENTITY.createOrUpdate(put);
 			throw new CcpFlow(json, ViewResumeStatus.insufficientFunds);
 		}
 		

@@ -14,7 +14,7 @@ public class ResumeSaveViewFailed implements Function<CcpJsonRepresentation, Ccp
 	public CcpJsonRepresentation apply(CcpJsonRepresentation json) {
 		String status = json.getValueFromPath("", "errorDetails", "status");
 		CcpJsonRepresentation put = json.put("status", status);
-		VisEntityResumeViewFailed.INSTANCE.createOrUpdate(put);
+		VisEntityResumeViewFailed.ENTITY.createOrUpdate(put);
 		return json;
 	}
 

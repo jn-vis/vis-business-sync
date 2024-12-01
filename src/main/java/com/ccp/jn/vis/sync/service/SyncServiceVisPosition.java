@@ -52,13 +52,13 @@ public class SyncServiceVisPosition {
 		
 		CcpCrud crud = CcpDependencyInjection.getDependency(CcpCrud.class);
 		
-		CcpEntity mirrorEntity = VisEntityPosition.INSTANCE.getMirrorEntity();
-		CcpSelectUnionAll searchResults = crud.unionAll(json, VisEntityPosition.INSTANCE, mirrorEntity);
+		CcpEntity mirrorEntity = VisEntityPosition.ENTITY.getTwinEntity();
+		CcpSelectUnionAll searchResults = crud.unionAll(json, VisEntityPosition.ENTITY, mirrorEntity);
 		
-		boolean activeResume = VisEntityPosition.INSTANCE.isPresentInThisUnionAll(searchResults, json);
+		boolean activeResume = VisEntityPosition.ENTITY.isPresentInThisUnionAll(searchResults, json);
 		
 		if(activeResume) {
-			CcpJsonRepresentation requiredEntityRow = VisEntityPosition.INSTANCE.getRequiredEntityRow(searchResults, json);
+			CcpJsonRepresentation requiredEntityRow = VisEntityPosition.ENTITY.getRequiredEntityRow(searchResults, json);
 			CcpJsonRepresentation put = requiredEntityRow.put("activePosition", true);
 			return put;
 		}
@@ -70,14 +70,14 @@ public class SyncServiceVisPosition {
 
 	public CcpJsonRepresentation getResumeList(CcpJsonRepresentation json) {
 		
-		CcpJsonRepresentation oneById = VisEntityGroupResumesByPosition.INSTANCE.fromCache().getOneById(json);
+		CcpJsonRepresentation oneById = VisEntityGroupResumesByPosition.ENTITY.getOneById(json);
 		
 		return oneById;
 	}
 	
 	public CcpJsonRepresentation getImportantSkillsFromText(CcpJsonRepresentation json) {
 		
-		CcpJsonRepresentation oneById = VisEntitySkill.INSTANCE.fromCache().getOneById(json);
+		CcpJsonRepresentation oneById = VisEntitySkill.ENTITY.getOneById(json);
 
 		PutSkillsInJson putSkillsInJson = new PutSkillsInJson(
 				VisEntityPosition.Fields.description.name(), 
@@ -93,18 +93,18 @@ public class SyncServiceVisPosition {
 
 		CcpJsonRepresentation findById =  new CcpGetEntityId(json)
 		.toBeginProcedureAnd()
-			.loadThisIdFromEntity(VisEntityPosition.INSTANCE).and()
-			.loadThisIdFromEntity(VisEntityResumePerception.INSTANCE).and()
-			.loadThisIdFromEntity(VisEntityResumeFreeView.INSTANCE).and()
-			.loadThisIdFromEntity(VisEntityResumeLastView.INSTANCE).and()
-			.loadThisIdFromEntity(VisEntityPosition.INSTANCE.getMirrorEntity()).and()
-			.loadThisIdFromEntity(VisEntityResumePerception.INSTANCE.getMirrorEntity()).and()
-			.ifThisIdIsNotPresentInEntity(VisEntityBalance.INSTANCE).returnStatus(ViewResumeStatus.missingBalance).and()
-			.ifThisIdIsNotPresentInEntity(VisEntityFees.INSTANCE).returnStatus(ViewResumeStatus.missingFee).and()
-			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.INSTANCE).returnStatus(ViewResumeStatus.notAllowedRecruiter).and()
-			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE.getMirrorEntity()).returnStatus(ViewResumeStatus.inactiveResume).and()
-			.ifThisIdIsNotPresentInEntity(VisEntityResume.INSTANCE).returnStatus(ViewResumeStatus.resumeNotFound).and()
-			.ifThisIdIsPresentInEntity(VisEntityResume.INSTANCE).executeAction(GetResumeContent.INSTANCE).andFinallyReturningThisFields()
+			.loadThisIdFromEntity(VisEntityPosition.ENTITY).and()
+			.loadThisIdFromEntity(VisEntityResumePerception.ENTITY).and()
+			.loadThisIdFromEntity(VisEntityResumeFreeView.ENTITY).and()
+			.loadThisIdFromEntity(VisEntityResumeLastView.ENTITY).and()
+			.loadThisIdFromEntity(VisEntityPosition.ENTITY.getTwinEntity()).and()
+			.loadThisIdFromEntity(VisEntityResumePerception.ENTITY.getTwinEntity()).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityBalance.ENTITY).returnStatus(ViewResumeStatus.missingBalance).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityFees.ENTITY).returnStatus(ViewResumeStatus.missingFee).and()
+			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.ENTITY).returnStatus(ViewResumeStatus.notAllowedRecruiter).and()
+			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY.getTwinEntity()).returnStatus(ViewResumeStatus.inactiveResume).and()
+			.ifThisIdIsNotPresentInEntity(VisEntityResume.ENTITY).returnStatus(ViewResumeStatus.resumeNotFound).and()
+			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY).executeAction(GetResumeContent.INSTANCE).andFinallyReturningThisFields()
 		.endThisProcedureRetrievingTheResultingData(ResumeSaveViewFailed.INSTANCE);
 		
 		return findById;
@@ -114,11 +114,11 @@ public class SyncServiceVisPosition {
 		
 		CcpJsonRepresentation findById =  new CcpGetEntityId(json)
 		.toBeginProcedureAnd()
-			.ifThisIdIsPresentInEntity(VisEntitySkill.INSTANCE).returnStatus(SuggestNewSkillStatus.alreadyExists).and()
-			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.INSTANCE).returnStatus(SuggestNewSkillStatus.approvedSkill).and()
-			.ifThisIdIsPresentInEntity(VisEntitySkillRejected.INSTANCE).returnStatus(SuggestNewSkillStatus.rejectedSkill).and()
-			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.INSTANCE.getMirrorEntity()).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
-			.ifThisIdIsNotPresentInEntity(VisEntitySkill.INSTANCE).executeAction(new JnSyncMensageriaSender(VisAsyncBusiness.skillsSuggest))
+			.ifThisIdIsPresentInEntity(VisEntitySkill.ENTITY).returnStatus(SuggestNewSkillStatus.alreadyExists).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.ENTITY).returnStatus(SuggestNewSkillStatus.approvedSkill).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillRejected.ENTITY).returnStatus(SuggestNewSkillStatus.rejectedSkill).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.ENTITY.getTwinEntity()).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
+			.ifThisIdIsNotPresentInEntity(VisEntitySkill.ENTITY).executeAction(new JnSyncMensageriaSender(VisAsyncBusiness.skillsSuggest))
 			.andFinallyReturningThisFields()
 		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING);
 		
