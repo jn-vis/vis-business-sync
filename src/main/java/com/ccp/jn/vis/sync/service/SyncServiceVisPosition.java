@@ -25,7 +25,7 @@ import com.vis.commons.entities.VisEntityResumeFreeView;
 import com.vis.commons.entities.VisEntityResumeLastView;
 import com.vis.commons.entities.VisEntityResumePerception;
 import com.vis.commons.entities.VisEntitySkill;
-import com.vis.commons.entities.VisEntitySkillApproved;
+import com.vis.commons.entities.VisEntitySkillPending;
 import com.vis.commons.entities.VisEntitySkillRejected;
 
 public class SyncServiceVisPosition {
@@ -115,9 +115,9 @@ public class SyncServiceVisPosition {
 		CcpJsonRepresentation findById =  new CcpGetEntityId(json)
 		.toBeginProcedureAnd()
 			.ifThisIdIsPresentInEntity(VisEntitySkill.ENTITY).returnStatus(SuggestNewSkillStatus.alreadyExists).and()
-			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.ENTITY).returnStatus(SuggestNewSkillStatus.approvedSkill).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillPending.ENTITY.getTwinEntity()).returnStatus(SuggestNewSkillStatus.approvedSkill).and()
 			.ifThisIdIsPresentInEntity(VisEntitySkillRejected.ENTITY).returnStatus(SuggestNewSkillStatus.rejectedSkill).and()
-			.ifThisIdIsPresentInEntity(VisEntitySkillApproved.ENTITY.getTwinEntity()).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
+			.ifThisIdIsPresentInEntity(VisEntitySkillPending.ENTITY).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
 			.ifThisIdIsNotPresentInEntity(VisEntitySkill.ENTITY).executeAction(new JnSyncMensageriaSender(VisAsyncBusiness.skillsSuggest))
 			.andFinallyReturningThisFields()
 		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING);
