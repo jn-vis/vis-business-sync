@@ -11,6 +11,7 @@ import com.ccp.especifications.db.utils.CcpEntity;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.jn.vis.sync.business.GetResumeContent;
 import com.ccp.jn.vis.sync.business.ResumeSaveViewFailed;
+import com.jn.commons.utils.JnDeleteKeysFromCache;
 import com.jn.vis.commons.cache.tasks.PutSkillsInJson;
 import com.jn.vis.commons.status.SuggestNewSkillStatus;
 import com.jn.vis.commons.status.ViewResumeStatus;
@@ -53,7 +54,7 @@ public class SyncServiceVisPosition {
 		CcpCrud crud = CcpDependencyInjection.getDependency(CcpCrud.class);
 		
 		CcpEntity mirrorEntity = VisEntityPosition.ENTITY.getTwinEntity();
-		CcpSelectUnionAll searchResults = crud.unionAll(json, VisEntityPosition.ENTITY, mirrorEntity);
+		CcpSelectUnionAll searchResults = crud.unionAll(json, JnDeleteKeysFromCache.INSTANCE, VisEntityPosition.ENTITY, mirrorEntity);
 		
 		boolean activeResume = VisEntityPosition.ENTITY.isPresentInThisUnionAll(searchResults, json);
 		
@@ -105,7 +106,7 @@ public class SyncServiceVisPosition {
 			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY.getTwinEntity()).returnStatus(ViewResumeStatus.inactiveResume).and()
 			.ifThisIdIsNotPresentInEntity(VisEntityResume.ENTITY).returnStatus(ViewResumeStatus.resumeNotFound).and()
 			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY).executeAction(GetResumeContent.INSTANCE).andFinallyReturningThisFields()
-		.endThisProcedureRetrievingTheResultingData(ResumeSaveViewFailed.INSTANCE);
+		.endThisProcedureRetrievingTheResultingData(ResumeSaveViewFailed.INSTANCE, JnDeleteKeysFromCache.INSTANCE);
 		
 		return findById;
 	}
@@ -120,7 +121,7 @@ public class SyncServiceVisPosition {
 			.ifThisIdIsPresentInEntity(VisEntitySkillPending.ENTITY).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
 			.ifThisIdIsNotPresentInEntity(VisEntitySkill.ENTITY).executeAction(new JnSyncMensageriaSender(VisAsyncBusiness.skillsSuggest))
 			.andFinallyReturningThisFields()
-		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING);
+		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING, JnDeleteKeysFromCache.INSTANCE);
 		
 		return findById;
 	}
