@@ -1,7 +1,7 @@
 package com.ccp.jn.vis.sync.service;
 
 
-import com.ccp.constantes.CcpConstants;
+import com.ccp.constantes.CcpOtherConstants;
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.dependency.injection.CcpDependencyInjection;
 import com.ccp.especifications.db.crud.CcpCrud;
@@ -105,7 +105,7 @@ public class SyncServiceVisPosition {
 			.ifThisIdIsPresentInEntity(VisEntityDeniedViewToCompany.ENTITY).returnStatus(ViewResumeStatus.notAllowedRecruiter).and()
 			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY.getTwinEntity()).returnStatus(ViewResumeStatus.inactiveResume).and()
 			.ifThisIdIsNotPresentInEntity(VisEntityResume.ENTITY).returnStatus(ViewResumeStatus.resumeNotFound).and()
-			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY).executeAction(GetResumeContent.INSTANCE).andFinallyReturningThisFields()
+			.ifThisIdIsPresentInEntity(VisEntityResume.ENTITY).executeAction(GetResumeContent.INSTANCE).andFinallyReturningTheseFields()
 		.endThisProcedureRetrievingTheResultingData(ResumeSaveViewFailed.INSTANCE, JnDeleteKeysFromCache.INSTANCE);
 		
 		return findById;
@@ -120,8 +120,8 @@ public class SyncServiceVisPosition {
 			.ifThisIdIsPresentInEntity(VisEntitySkillRejected.ENTITY).returnStatus(SuggestNewSkillStatus.rejectedSkill).and()
 			.ifThisIdIsPresentInEntity(VisEntitySkillPending.ENTITY).returnStatus(SuggestNewSkillStatus.pendingSkill).and()
 			.ifThisIdIsNotPresentInEntity(VisEntitySkill.ENTITY).executeAction(new JnSyncMensageriaSender(VisAsyncBusiness.skillsSuggest))
-			.andFinallyReturningThisFields()
-		.endThisProcedureRetrievingTheResultingData(CcpConstants.DO_NOTHING, JnDeleteKeysFromCache.INSTANCE);
+			.andFinallyReturningTheseFields()
+		.endThisProcedureRetrievingTheResultingData(CcpOtherConstants.DO_NOTHING, JnDeleteKeysFromCache.INSTANCE);
 		
 		return findById;
 	}
