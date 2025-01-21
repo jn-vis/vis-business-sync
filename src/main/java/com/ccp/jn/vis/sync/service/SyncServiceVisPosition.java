@@ -12,10 +12,7 @@ import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.ccp.jn.vis.sync.business.GetResumeContent;
 import com.ccp.jn.vis.sync.business.ResumeSaveViewFailed;
 import com.jn.commons.utils.JnDeleteKeysFromCache;
-import com.jn.vis.commons.cache.tasks.PutSkillsInJson;
-import com.jn.vis.commons.status.SuggestNewSkillStatus;
-import com.jn.vis.commons.status.ViewResumeStatus;
-import com.jn.vis.commons.utils.VisAsyncBusiness;
+import com.vis.commons.cache.tasks.PutSkillsInJson;
 import com.vis.commons.entities.VisEntityBalance;
 import com.vis.commons.entities.VisEntityDeniedViewToCompany;
 import com.vis.commons.entities.VisEntityFees;
@@ -28,6 +25,9 @@ import com.vis.commons.entities.VisEntityResumePerception;
 import com.vis.commons.entities.VisEntitySkill;
 import com.vis.commons.entities.VisEntitySkillPending;
 import com.vis.commons.entities.VisEntitySkillRejected;
+import com.vis.commons.status.SuggestNewSkillStatus;
+import com.vis.commons.status.ViewResumeStatus;
+import com.vis.commons.utils.VisAsyncBusiness;
 
 public class SyncServiceVisPosition {
 	
