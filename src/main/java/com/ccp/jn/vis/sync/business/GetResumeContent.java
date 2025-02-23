@@ -3,7 +3,7 @@ package com.ccp.jn.vis.sync.business;
 import java.util.function.Function;
 
 import com.ccp.decorators.CcpJsonRepresentation;
-import com.ccp.exceptions.process.CcpFlow;
+import com.ccp.exceptions.process.CcpFlowDiversion;
 import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.vis.commons.entities.VisEntityBalance;
 import com.vis.commons.entities.VisEntityFees;
@@ -34,7 +34,7 @@ public class GetResumeContent implements Function<CcpJsonRepresentation, CcpJson
 		if(insufficientFunds) {
 			CcpJsonRepresentation put = json.put("status", ViewResumeStatus.insufficientFunds);
 			VisEntityResumeViewFailed.ENTITY.createOrUpdate(put);
-			throw new CcpFlow(json, ViewResumeStatus.insufficientFunds);
+			throw new CcpFlowDiversion(json, ViewResumeStatus.insufficientFunds);
 		}
 		
 		new JnSyncMensageriaSender(VisAsyncBusiness.resumeViewSave).apply(json);
