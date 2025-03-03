@@ -85,7 +85,7 @@ public class SyncServiceVisPosition {
 				VisEntityPosition.Fields.requiredSkill.name()
 				);
 		
-		CcpJsonRepresentation jsonWithSkills = oneById.getTransformedJson(putSkillsInJson);
+		CcpJsonRepresentation jsonWithSkills = oneById.extractInformationFromJson(putSkillsInJson);
 		
 		return jsonWithSkills;
 	}
