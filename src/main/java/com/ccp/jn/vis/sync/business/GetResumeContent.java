@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import com.ccp.decorators.CcpJsonRepresentation;
 import com.ccp.exceptions.process.CcpFlowDisturb;
-import com.ccp.jn.sync.mensageria.JnSyncMensageriaSender;
+import com.jn.sync.mensageria.JnSyncMensageriaSender;
 import com.vis.commons.entities.VisEntityBalance;
 import com.vis.commons.entities.VisEntityFees;
 import com.vis.commons.entities.VisEntityResumeViewFailed;
